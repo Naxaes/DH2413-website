@@ -163,25 +163,42 @@ LOGGING = {
         }
     },
     "handlers": {
+        'mail_admins': {
+            'level': 'ERROR',
+            'class': 'django.utils.log.AdminEmailHandler',
+            'include_html': True,
+        },
         "console": {
             "level": "DEBUG",
             "class": "logging.StreamHandler",
             "formatter": "verbose",
         }
     },
-    "root": {"level": "INFO", "handlers": ["console"]},
+    "root": {
+        "level": "INFO",
+        "handlers": ["console"]
+    },
     "loggers": {
+        "django.request": {
+            "level": "ERROR",
+            "handlers": ["mail_admins"],
+            "propagate": True,
+        },
         "django.db.backends": {
+            "level": "ERROR",
+            "handlers": ["console", "mail_admins"],
+            "propagate": False,
+        },
+        "django.security.DisallowedHost": {
             "level": "ERROR",
             "handlers": ["console"],
             "propagate": False,
         },
         # Errors logged by the SDK itself
-        "sentry_sdk": {"level": "ERROR", "handlers": ["console"], "propagate": False},
-        "django.security.DisallowedHost": {
+        "sentry_sdk": {
             "level": "ERROR",
             "handlers": ["console"],
-            "propagate": False,
+            "propagate": False
         },
     },
 }

@@ -64,7 +64,6 @@ services:
     image: dh2413_advanced_graphics_and_interaction_production_flower
     command: /start-flower
 
-
   awscli:
     build:
       context: .
